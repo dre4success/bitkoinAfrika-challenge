@@ -112,31 +112,24 @@ module.exports = require("redux-form");
 "use strict";
 
 
-__webpack_require__(8);
+// import 'babel-polyfill';
+/* import express from 'express';
+import React from 'react';
+import {renderToString} from 'react-dom/server';
+import renderer from './helper/server-render'; */
 
-var _express = __webpack_require__(9);
+var express = __webpack_require__(8);
+var React = __webpack_require__(0);
+var renderToString = __webpack_require__(2).renderToString;
+var renderer = __webpack_require__(9).default;
 
-var _express2 = _interopRequireDefault(_express);
+var app = express();
 
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _server = __webpack_require__(2);
-
-var _serverRender = __webpack_require__(10);
-
-var _serverRender2 = _interopRequireDefault(_serverRender);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var app = (0, _express2.default)();
-
-app.use(_express2.default.static('public'));
+app.use(express.static('public'));
 app.get('*', function (req, res) {
 
   var context = {};
-  var content = (0, _serverRender2.default)(req, context);
+  var content = renderer(req, context);
   res.send(content);
 });
 
@@ -150,16 +143,10 @@ app.listen(PORT, function () {
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-polyfill");
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
 module.exports = require("express");
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -183,11 +170,11 @@ var _reactRedux = __webpack_require__(4);
 
 var _redux = __webpack_require__(5);
 
-var _Routes = __webpack_require__(11);
+var _Routes = __webpack_require__(10);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
-var _reducers = __webpack_require__(19);
+var _reducers = __webpack_require__(18);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -214,7 +201,7 @@ exports.default = function (req, context) {
 };
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -228,19 +215,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _App = __webpack_require__(12);
+var _App = __webpack_require__(11);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _Home = __webpack_require__(14);
+var _Home = __webpack_require__(13);
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _About = __webpack_require__(15);
+var _About = __webpack_require__(14);
 
 var _About2 = _interopRequireDefault(_About);
 
-var _Contact = __webpack_require__(16);
+var _Contact = __webpack_require__(15);
 
 var _Contact2 = _interopRequireDefault(_Contact);
 
@@ -262,7 +249,7 @@ exports.default = [{
 }];
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -278,7 +265,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterConfig = __webpack_require__(3);
 
-var _Header = __webpack_require__(13);
+var _Header = __webpack_require__(12);
 
 var _Header2 = _interopRequireDefault(_Header);
 
@@ -298,7 +285,7 @@ var App = function App(_ref) {
 exports.default = App;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -389,7 +376,7 @@ var Header = function (_Component) {
 exports.default = Header;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -439,7 +426,7 @@ var Home = function (_Component) {
 exports.default = Home;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -491,7 +478,7 @@ var About = function (_Component) {
 exports.default = About;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -511,11 +498,11 @@ var _reduxForm = __webpack_require__(6);
 
 var _reactRedux = __webpack_require__(4);
 
-var _renderField = __webpack_require__(17);
+var _renderField = __webpack_require__(16);
 
 var _renderField2 = _interopRequireDefault(_renderField);
 
-var _actions = __webpack_require__(18);
+var _actions = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -597,7 +584,7 @@ exports.default = (0, _reactRedux.connect)(null, { saveForm: _actions.saveForm }
 })(ContactForm));
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -643,7 +630,7 @@ exports.default = function (_ref) {
 };
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -664,7 +651,7 @@ var saveForm = exports.saveForm = function saveForm(values) {
 };
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
