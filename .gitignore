@@ -1,2 +1,4 @@
 node_modules
 build
+public/0.client-bundle.js
+public/client-bundle.js
