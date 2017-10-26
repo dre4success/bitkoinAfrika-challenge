@@ -2,6 +2,12 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
+/******/ 	// object to store loaded chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	var installedChunks = {
+/******/ 		1: 0
+/******/ 	};
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -26,6 +32,21 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] !== 0) {
+/******/ 			var chunk = require("./" + chunkId + ".server-bundle.js");
+/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
+/******/ 			for(var moduleId in moreModules) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 			for(var i = 0; i < chunkIds.length; i++)
+/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 		}
+/******/ 		return Promise.resolve();
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -59,6 +80,13 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// uncatched error handler for webpack runtime
+/******/ 	__webpack_require__.oe = function(err) {
+/******/ 		process.nextTick(function() {
+/******/ 			throw err; // catch this error by using System.import().catch()
+/******/ 		});
+/******/ 	};
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
@@ -91,13 +119,13 @@ module.exports = require("react-router-config");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-redux");
+module.exports = require("redux");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("redux");
+module.exports = require("react-redux");
 
 /***/ }),
 /* 6 */
@@ -112,24 +140,29 @@ module.exports = require("redux-form");
 "use strict";
 
 
-// import 'babel-polyfill';
-/* import express from 'express';
-import React from 'react';
-import {renderToString} from 'react-dom/server';
-import renderer from './helper/server-render'; */
+var _express = __webpack_require__(8);
 
-var express = __webpack_require__(8);
-var React = __webpack_require__(0);
-var renderToString = __webpack_require__(2).renderToString;
-var renderer = __webpack_require__(9).default;
+var _express2 = _interopRequireDefault(_express);
 
-var app = express();
+var _react = __webpack_require__(0);
 
-app.use(express.static('public'));
+var _react2 = _interopRequireDefault(_react);
+
+var _server = __webpack_require__(2);
+
+var _serverRender = __webpack_require__(9);
+
+var _serverRender2 = _interopRequireDefault(_serverRender);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = (0, _express2.default)();
+
+app.use(_express2.default.static('public'));
 app.get('*', function (req, res) {
 
   var context = {};
-  var content = renderer(req, context);
+  var content = (0, _serverRender2.default)(req, context);
   res.send(content);
 });
 
@@ -166,15 +199,15 @@ var _reactRouterDom = __webpack_require__(1);
 
 var _reactRouterConfig = __webpack_require__(3);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _redux = __webpack_require__(5);
+var _redux = __webpack_require__(4);
 
 var _Routes = __webpack_require__(10);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
-var _reducers = __webpack_require__(18);
+var _reducers = __webpack_require__(16);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -227,12 +260,18 @@ var _About = __webpack_require__(14);
 
 var _About2 = _interopRequireDefault(_About);
 
-var _Contact = __webpack_require__(15);
+var _lazyLoad = __webpack_require__(15);
 
-var _Contact2 = _interopRequireDefault(_Contact);
+var _lazyLoad2 = _interopRequireDefault(_lazyLoad);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Contact = (0, _lazyLoad2.default)(function () {
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 17)).then(function (module) {
+    return module.default;
+  });
+});
+// import Contact from './components/Contact';
 exports.default = [{
   component: _App2.default,
   routes: [{
@@ -243,7 +282,7 @@ exports.default = [{
     component: _About2.default,
     path: '/about'
   }, {
-    component: _Contact2.default,
+    component: Contact,
     path: '/contact'
   }]
 }];
@@ -485,24 +524,16 @@ exports.default = About;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+exports.default = asyncComponent;
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reduxForm = __webpack_require__(6);
-
-var _reactRedux = __webpack_require__(4);
-
-var _renderField = __webpack_require__(16);
-
-var _renderField2 = _interopRequireDefault(_renderField);
-
-var _actions = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -512,76 +543,48 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ContactForm = function (_Component) {
-  _inherits(ContactForm, _Component);
+function asyncComponent(getComponent) {
+    var LazyComponent = function (_Component) {
+        _inherits(LazyComponent, _Component);
 
-  function ContactForm() {
-    _classCallCheck(this, ContactForm);
+        function LazyComponent(props) {
+            _classCallCheck(this, LazyComponent);
 
-    return _possibleConstructorReturn(this, (ContactForm.__proto__ || Object.getPrototypeOf(ContactForm)).apply(this, arguments));
-  }
+            var _this = _possibleConstructorReturn(this, (LazyComponent.__proto__ || Object.getPrototypeOf(LazyComponent)).call(this, props));
 
-  _createClass(ContactForm, [{
-    key: 'handleFormSubmit',
-    value: function handleFormSubmit(values) {
-      this.props.saveForm(values);
-      this.props.dispatch((0, _reduxForm.reset)('ContactForm'));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var handleSubmit = this.props.handleSubmit;
+            _this.state = { Component: null };
+            return _this;
+        }
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'contact-form-container' },
-        _react2.default.createElement(
-          'form',
-          { className: 'contact-form', onSubmit: handleSubmit(this.handleFormSubmit.bind(this)) },
-          _react2.default.createElement(_reduxForm.Field, { label: 'Full Name:', name: 'fname', component: _renderField2.default, type: 'text' }),
-          _react2.default.createElement(_reduxForm.Field, { label: 'Email:', name: 'email', component: _renderField2.default, type: 'email' }),
-          _react2.default.createElement(_reduxForm.Field, { label: 'Confirm Email:', name: 'emailagain', component: _renderField2.default, type: 'email' }),
-          _react2.default.createElement(_reduxForm.Field, { label: 'Message:', name: 'message', component: _renderField2.default, textarea: true }),
-          _react2.default.createElement(
-            'button',
-            { className: 'buttons', type: 'submit' },
-            'Submit'
-          )
-        )
-      );
-    }
-  }]);
+        _createClass(LazyComponent, [{
+            key: "componentWillMount",
+            value: function componentWillMount() {
+                var _this2 = this;
 
-  return ContactForm;
-}(_react.Component);
+                if (!this.state.Component) {
+                    getComponent().then(function (Component) {
+                        LazyComponent.Component = Component;
+                        _this2.setState({ Component: Component });
+                    });
+                }
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var Component = this.state.Component;
 
-var validate = function validate(values) {
-  var errors = {};
+                if (Component) {
+                    return _react2.default.createElement(Component, this.props);
+                }
+                return null;
+            }
+        }]);
 
-  if (!values.fname) {
-    errors.fname = 'Please enter your full name';
-  }
-  if (!values.email) {
-    errors.email = 'Please Enter Your Email';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-  if (!values.emailagain) {
-    errors.emailagain = 'Please Enter Your Email Again';
-  }
-  if (values.email !== values.emailagain) {
-    errors.email = 'Email does not match';
-  }
-  if (!values.message) {
-    errors.message = 'Please enter a message';
-  }
-  return errors;
-};
+        return LazyComponent;
+    }(_react.Component);
 
-exports.default = (0, _reactRedux.connect)(null, { saveForm: _actions.saveForm })((0, _reduxForm.reduxForm)({
-  form: 'ContactForm',
-  validate: validate
-})(ContactForm));
+    return LazyComponent;
+}
 
 /***/ }),
 /* 16 */
@@ -594,74 +597,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (_ref) {
-  var input = _ref.input,
-      textarea = _ref.textarea,
-      label = _ref.label,
-      _ref$meta = _ref.meta,
-      error = _ref$meta.error,
-      touched = _ref$meta.touched,
-      invalid = _ref$meta.invalid;
-
-  var textareaType = _react2.default.createElement("textarea", input);
-  var inputType = _react2.default.createElement("input", input);
-
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "label",
-      null,
-      label
-    ),
-    textarea ? textareaType : inputType,
-    _react2.default.createElement(
-      "div",
-      { className: "error" },
-      touched && error
-    )
-  );
-};
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var SAVE_FORM = exports.SAVE_FORM = 'save_form';
-
-var saveForm = exports.saveForm = function saveForm(values) {
-  var json = JSON.stringify(values);
-  var storage = localStorage.setItem('form', json);
-  return {
-    type: SAVE_FORM,
-    payload: storage
-  };
-};
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _redux = __webpack_require__(5);
+var _redux = __webpack_require__(4);
 
 var _reduxForm = __webpack_require__(6);
 

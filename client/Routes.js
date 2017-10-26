@@ -2,7 +2,12 @@ import React from 'react';
 import App from './App';
 import Home from './components/Home';
 import About from './components/About';
-import Contact from './components/Contact';
+// import Contact from './components/Contact';
+import asyncComponent from './components/lazyLoad';
+
+const Contact = asyncComponent(() =>
+  import('./components/Contact').then(module => module.default)
+);
 
 export default [
   {
@@ -16,10 +21,11 @@ export default [
       {
         component: About,
         path: '/about'
-      },{
-        component:Contact,
+      },
+      {
+        component: Contact,
         path: '/contact'
       }
     ]
   }
-]
+];

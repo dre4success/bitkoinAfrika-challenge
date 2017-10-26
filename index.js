@@ -1,13 +1,7 @@
-// import 'babel-polyfill';
 import express from 'express';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
 import renderer from './helper/server-render'; 
-
-/* const express = require('express');
-const React = require('react');
-const renderToString = require('react-dom/server').renderToString;
-const renderer = require('./helper/server-render').default; */
 
 const app = express();
 

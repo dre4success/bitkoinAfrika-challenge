@@ -3,7 +3,6 @@ import {reduxForm, Field, reset} from 'redux-form';
 import {connect} from 'react-redux';
 import renderField from './renderField';
 import {saveForm} from '../actions';
-
 class ContactForm extends Component {
 
   handleFormSubmit(values) {
