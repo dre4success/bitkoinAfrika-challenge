@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {reduxForm, Field, reset} from 'redux-form';
 import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
 import renderField from './renderField';
 import {saveForm} from '../actions';
 class ContactForm extends Component {
@@ -9,10 +10,20 @@ class ContactForm extends Component {
     this.props.saveForm(values)
     this.props.dispatch(reset('ContactForm'))
   }
+
+  head() {
+    return (
+      <Helmet>
+        <title>Contact</title>
+        <meta property="og:title" content="Contact App" />
+      </Helmet>
+    )
+  }
   render() { 
     const {handleSubmit} = this.props
     return (
       <div className="contact-form-container">
+        {this.head()}
       <form className="contact-form" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <Field label="Full Name:" name="fname" component={renderField} type="text" />
         <Field label="Email:" name="email" component={renderField} type="email" />

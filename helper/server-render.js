@@ -4,6 +4,7 @@ import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { Helmet } from 'react-helmet';
 import Routes from '../client/Routes';
 import reducers from '../client/reducers';
 
@@ -18,10 +19,15 @@ export default (req, context) => {
     </Provider>
   );
 
+  const helmet = Helmet.renderStatic();
+
   return `
       <html>
-        <head></head>
+        <head>
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
         <link rel="stylesheet" href="styles.css">
+        </head>
         <body>
           <div id="root">${content}</div>
           <script src="client-bundle.js"></script>

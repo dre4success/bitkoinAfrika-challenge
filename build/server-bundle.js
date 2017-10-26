@@ -203,6 +203,8 @@ var _reactRedux = __webpack_require__(5);
 
 var _redux = __webpack_require__(4);
 
+var _reactHelmet = __webpack_require__(20);
+
 var _Routes = __webpack_require__(10);
 
 var _Routes2 = _interopRequireDefault(_Routes);
@@ -230,7 +232,9 @@ exports.default = function (req, context) {
     )
   ));
 
-  return '\n      <html>\n        <head></head>\n        <link rel="stylesheet" href="styles.css">\n        <body>\n          <div id="root">' + content + '</div>\n          <script src="client-bundle.js"></script>\n        </body>\n      </html>\n    ';
+  var helmet = _reactHelmet.Helmet.renderStatic();
+
+  return '\n      <html>\n        <head>\n        ' + helmet.title.toString() + '\n        ' + helmet.meta.toString() + '\n        <link rel="stylesheet" href="styles.css">\n        </head>\n        <body>\n          <div id="root">' + content + '</div>\n          <script src="client-bundle.js"></script>\n        </body>\n      </html>\n    ';
 };
 
 /***/ }),
@@ -431,6 +435,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactHelmet = __webpack_require__(20);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -449,11 +455,26 @@ var Home = function (_Component) {
   }
 
   _createClass(Home, [{
+    key: 'head',
+    value: function head() {
+      return _react2.default.createElement(
+        _reactHelmet.Helmet,
+        null,
+        _react2.default.createElement(
+          'title',
+          null,
+          'Home'
+        ),
+        _react2.default.createElement('meta', { property: 'og:title', content: 'Contact App' })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
+        this.head(),
         'I Am Home Component'
       );
     }
@@ -483,6 +504,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(1);
 
+var _reactHelmet = __webpack_require__(20);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -501,11 +524,26 @@ var About = function (_Component) {
   }
 
   _createClass(About, [{
+    key: 'head',
+    value: function head() {
+      return _react2.default.createElement(
+        _reactHelmet.Helmet,
+        null,
+        _react2.default.createElement(
+          'title',
+          null,
+          'About'
+        ),
+        _react2.default.createElement('meta', { property: 'og:title', content: 'Contact App' })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
+        this.head(),
         'Welcome to About'
       );
     }
@@ -604,6 +642,15 @@ var _reduxForm = __webpack_require__(6);
 exports.default = (0, _redux.combineReducers)({
   form: _reduxForm.reducer
 });
+
+/***/ }),
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-helmet");
 
 /***/ })
 /******/ ]);

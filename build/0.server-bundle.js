@@ -21,6 +21,8 @@ var _reduxForm = __webpack_require__(6);
 
 var _reactRedux = __webpack_require__(5);
 
+var _reactHelmet = __webpack_require__(20);
+
 var _renderField = __webpack_require__(18);
 
 var _renderField2 = _interopRequireDefault(_renderField);
@@ -51,6 +53,20 @@ var ContactForm = function (_Component) {
       this.props.dispatch((0, _reduxForm.reset)('ContactForm'));
     }
   }, {
+    key: 'head',
+    value: function head() {
+      return _react2.default.createElement(
+        _reactHelmet.Helmet,
+        null,
+        _react2.default.createElement(
+          'title',
+          null,
+          'Contact'
+        ),
+        _react2.default.createElement('meta', { property: 'og:title', content: 'Contact App' })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       var handleSubmit = this.props.handleSubmit;
@@ -58,6 +74,7 @@ var ContactForm = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'contact-form-container' },
+        this.head(),
         _react2.default.createElement(
           'form',
           { className: 'contact-form', onSubmit: handleSubmit(this.handleFormSubmit.bind(this)) },
