@@ -13,7 +13,7 @@ class Home extends Component {
     return (
       <div>
         {this.head()}
-        I Am Home Component
+        Welcome Home
       </div>
     );
   }

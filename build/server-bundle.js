@@ -475,7 +475,7 @@ var Home = function (_Component) {
         'div',
         null,
         this.head(),
-        'I Am Home Component'
+        'Welcome Home'
       );
     }
   }]);
